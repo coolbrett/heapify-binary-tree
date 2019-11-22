@@ -23,30 +23,43 @@ public class PathNode implements Comparable {
     private boolean isLevelEnd;
     /** True if the node is the right-most node in the last level. */
     private boolean isLastNode;
+    /** Level that PathNode is on*/
+    private int level;
 
-    public PathNode(PathNode left, PathNode right, PathNode parent, PathNode generation,
-                    boolean isLevelEnd, boolean isLastNode){
-        this.left = left;
-        this.right = right;
-        this.parent = parent;
-        this.generation = generation;
-        this.isLevelEnd = isLevelEnd;
-        this.isLastNode = isLastNode;
-    }
-
-    public PathNode(){
+    public PathNode(PathNode parent){
         this.left = null;
         this.right = null;
-        this.parent = null;
+        this.parent = parent;
         this.generation = null;
         this.isLevelEnd = false;
         this.isLastNode = false;
+        this.level = 0;
     }
 
     @Override
     public int compareTo(Object other) {
         //remember to check instanceof
-        return 0;
+        if (other instanceof PathNode){
+            //checking for equality
+            if (){
+
+            }
+            //checking to see if "this" is less than parameter
+            else if (){
+
+            }
+            //if not equal or less, then it is more
+            else{
+
+            }
+        }else{
+            throw new ClassCastException("compareTo; parameter passed is not PathNode");
+        }
+    }
+
+    // TODO: 11/22/2019 write this equals method for the compareTo method above
+    public boolean equals(Object other){
+
     }
 
     public ArrayList<Integer> getPath() {
@@ -103,5 +116,13 @@ public class PathNode implements Comparable {
 
     public void setLastNode(boolean lastNode) {
         isLastNode = lastNode;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

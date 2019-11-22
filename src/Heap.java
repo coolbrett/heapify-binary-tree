@@ -22,7 +22,6 @@ public class Heap {
      * @param inputFile Name of the input file to be read.
      * @throws FileNotFoundException if the input file cannot be found.
      */
-
     public void readPaths(String inputFile) throws FileNotFoundException{
 
     }
