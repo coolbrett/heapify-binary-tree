@@ -1,7 +1,7 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-// FIXME: 11/21/2019 description sucks plus your last name might be spelt wrong Julia :/
+// FIXME: 11/21/2019 description sucks
 /**
  * Class to build Heap objects
  *
@@ -67,5 +67,13 @@ public class Heap {
      */
     public void printTreeLevels(PathNode root){
 
+    }
+
+    public ArrayList<PathNode> getTempPath() {
+        return tempPath;
+    }
+
+    public void setTempPath(ArrayList<PathNode> tempPath) {
+        this.tempPath = tempPath;
     }
 }
