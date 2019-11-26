@@ -13,6 +13,8 @@ public class Heap {
 
     /** Temporary storage for the paths starting at tempPath[1]. */
     private ArrayList<PathNode> tempPath;
+    /** top of Heap*/
+    private PathNode top;
 
     /**
      * Reads inputFile given at the command line and places the contents of each line into the
