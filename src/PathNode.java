@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+// FIXME: 11/26/2019 description is wrong
 /**
  * Class to build nodes that will build the Binary Trees
  *
@@ -26,40 +27,38 @@ public class PathNode implements Comparable {
     /** Level that PathNode is on*/
     private int level;
 
-    public PathNode(PathNode parent){
+    //cant assume any fields so set default values, no parameters
+    public PathNode(){
         this.left = null;
         this.right = null;
-        this.parent = parent;
+        this.parent = null;
         this.generation = null;
         this.isLevelEnd = false;
         this.isLastNode = false;
         this.level = 0;
     }
 
+    //compares sizes
     @Override
     public int compareTo(Object other) {
-        //remember to check instanceof
         if (other instanceof PathNode){
-            //checking for equality
-            if (){
-
-            }
-            //checking to see if "this" is less than parameter
-            else if (){
-
-            }
-            //if not equal or less, then it is more
-            else{
-
-            }
+            return Integer.compare(this.path.size(), ((PathNode) other).path.size());
         }else{
             throw new ClassCastException("compareTo; parameter passed is not PathNode");
         }
     }
 
-    // TODO: 11/22/2019 write this equals method for the compareTo method above
+    @Override
     public boolean equals(Object other){
-
+        boolean status = true;
+        if (other instanceof PathNode){
+            for (Integer num : ((PathNode) other).path){
+                if (!this.path.contains(num)){
+                    status = false;
+                }
+            }
+        }
+        return status;
     }
 
     public ArrayList<Integer> getPath() {

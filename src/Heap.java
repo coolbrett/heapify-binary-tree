@@ -75,4 +75,12 @@ public class Heap {
     public void setTempPath(ArrayList<PathNode> tempPath) {
         this.tempPath = tempPath;
     }
+
+    private void addNode(PathNode node){
+
+    }
+
+    private void swap(PathNode node){
+
+    }
 }
