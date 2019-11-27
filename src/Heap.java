@@ -1,9 +1,11 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 // FIXME: 11/21/2019 description sucks
 /**
- * Class to build Heap objects
+ * Class to build Heap object in order to heapify
  *
  * @author Julia Januchowski
  * @author Brett Dale
@@ -12,7 +14,9 @@ import java.util.ArrayList;
 public class Heap {
 
     /** Temporary storage for the paths starting at tempPath[1]. */
-    private ArrayList<PathNode> tempPath;
+    private ArrayList<PathNode> tempPath = new ArrayList<>();
+    /** top of Heap*/
+    private PathNode top;
 
     /**
      * Reads inputFile given at the command line and places the contents of each line into the
@@ -22,9 +26,25 @@ public class Heap {
      * @param inputFile Name of the input file to be read.
      * @throws FileNotFoundException if the input file cannot be found.
      */
-
     public void readPaths(String inputFile) throws FileNotFoundException{
-
+        try {
+            File file = new File(inputFile);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                PathNode node = new PathNode();
+                ArrayList<Integer> temp = new ArrayList<>();
+                scanner.useDelimiter(" ");
+                while (scanner.hasNext()){
+                    String num = scanner.next();
+                    System.out.println(num);
+                    //temp.add((int) num);
+                }
+            }
+        }catch (FileNotFoundException fnfe){
+            System.out.println("readPaths; File passed not found");
+        }catch (NumberFormatException nfe){
+            System.out.println("readPaths; File has invalid characters");
+        }
     }
 
     /**
@@ -75,5 +95,13 @@ public class Heap {
 
     public void setTempPath(ArrayList<PathNode> tempPath) {
         this.tempPath = tempPath;
+    }
+
+    private void addNode(PathNode node){
+
+    }
+
+    private void swap(PathNode node){
+
     }
 }

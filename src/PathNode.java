@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+// FIXME: 11/26/2019 description is wrong
 /**
  * Class to build nodes that will build the Binary Trees
  *
@@ -23,17 +24,10 @@ public class PathNode implements Comparable {
     private boolean isLevelEnd;
     /** True if the node is the right-most node in the last level. */
     private boolean isLastNode;
+    /** Level that PathNode is on*/
+    private int level;
 
-    public PathNode(PathNode left, PathNode right, PathNode parent, PathNode generation,
-                    boolean isLevelEnd, boolean isLastNode){
-        this.left = left;
-        this.right = right;
-        this.parent = parent;
-        this.generation = generation;
-        this.isLevelEnd = isLevelEnd;
-        this.isLastNode = isLastNode;
-    }
-
+    //cant assume any fields so set default values, no parameters
     public PathNode(){
         this.left = null;
         this.right = null;
@@ -41,12 +35,38 @@ public class PathNode implements Comparable {
         this.generation = null;
         this.isLevelEnd = false;
         this.isLastNode = false;
+        this.level = 0;
+    }
+
+    //compares sizes
+    @Override
+    public int compareTo(Object other) {
+        if (other instanceof PathNode){
+            return Integer.compare(this.path.size(), ((PathNode) other).path.size());
+        }else{
+            throw new ClassCastException("compareTo; parameter passed is not PathNode");
+        }
     }
 
     @Override
-    public int compareTo(Object other) {
-        //remember to check instanceof
-        return 0;
+    //has break statement, may need to ask if this is okay.
+    public boolean equals(Object other){
+        boolean status = true;
+        if (other instanceof PathNode){
+            /*for (Integer num : ((PathNode) other).path){
+                if (!this.path.contains(num)) {
+                    status = false;
+                    break;
+                }
+            }*/
+            for (int i = 0; i < ((PathNode) other).path.size(); i++){
+                if (!this.path.contains(((PathNode) other).path.get(i))){
+                    status = false;
+                    i = ((PathNode) other).path.size();
+                }
+            }
+        }
+        return status;
     }
 
     public ArrayList<Integer> getPath() {
@@ -103,5 +123,13 @@ public class PathNode implements Comparable {
 
     public void setLastNode(boolean lastNode) {
         isLastNode = lastNode;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

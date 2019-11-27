@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+
 /**
  * This class runs the project and builds the Binary Tree
  *
@@ -7,7 +9,12 @@
  */
 public class Driver {
 
-    public static void main(String[] args){
-        Heap heap = new Heap();
+    public static void main(String[] args) {
+        try {
+            Heap heap = new Heap();
+            heap.readPaths(args[2]);
+        }catch (FileNotFoundException e){
+            System.out.println("main; file not found");
+        }
     }
 }
