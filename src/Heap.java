@@ -13,8 +13,17 @@ import java.util.Scanner;
  */
 public class Heap {
 
+    // TODO: 12/2/2019 Don't know if these are all the fields needed
+
     /** Temporary storage for the paths starting at tempPath[1]. */
     private ArrayList<PathNode> tempPath = new ArrayList<>();
+    /** Root of Heap*/
+    private PathNode root;
+
+    //cant assume any fields
+    public Heap(){
+        this.root = null;
+    }
 
     /**
      * Reads inputFile given at the command line and places the contents of each line into the
@@ -45,6 +54,7 @@ public class Heap {
                 }
                 node.setPath(temp);
                 tempPath.add(node);
+                //System.out.println(tempPath.size());
             }
         }catch (FileNotFoundException fnfe){
             System.out.println("readPaths; File passed not found");
@@ -103,11 +113,20 @@ public class Heap {
         this.tempPath = tempPath;
     }
 
-    private void addNode(PathNode node){
+    // TODO: 12/2/2019 still thinking through what parameters are needed, how to write
+    private void addNode(Heap heap, PathNode node){
 
     }
 
     private void swap(PathNode node){
 
+    }
+
+    public PathNode getRoot() {
+        return root;
+    }
+
+    public void setRoot(PathNode root) {
+        this.root = root;
     }
 }
