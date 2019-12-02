@@ -1,9 +1,11 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 // FIXME: 11/21/2019 description sucks
 /**
- * Class to build Heap objects
+ * Class to build Heap object in order to heapify
  *
  * @author Julia Januchowski
  * @author Brett Dale
@@ -12,9 +14,7 @@ import java.util.ArrayList;
 public class Heap {
 
     /** Temporary storage for the paths starting at tempPath[1]. */
-    private ArrayList<PathNode> tempPath;
-    /** top of Heap*/
-    private PathNode top;
+    private ArrayList<PathNode> tempPath = new ArrayList<>();
 
     /**
      * Reads inputFile given at the command line and places the contents of each line into the
@@ -25,7 +25,32 @@ public class Heap {
      * @throws FileNotFoundException if the input file cannot be found.
      */
     public void readPaths(String inputFile) throws FileNotFoundException{
-
+        try {
+            File file = new File(inputFile);
+            Scanner scanner = new Scanner(file);
+            scanner.useDelimiter("\r\n");
+            while (scanner.hasNext()) {
+                PathNode node = new PathNode();
+                ArrayList<Number> temp = new ArrayList<>();
+                String string = scanner.next();
+                String[] arr = string.split(" ");
+                for (String str : arr) {
+                    Number num;
+                    if (!str.contains(".")) {
+                        num = Integer.valueOf(str);
+                    } else {
+                        num = Double.valueOf(str);
+                    }
+                    temp.add(num);
+                }
+                node.setPath(temp);
+                tempPath.add(node);
+            }
+        }catch (FileNotFoundException fnfe){
+            System.out.println("readPaths; File passed not found");
+        }catch (NumberFormatException nfe){
+            System.out.println("readPaths; File has invalid characters");
+        }
     }
 
     /**

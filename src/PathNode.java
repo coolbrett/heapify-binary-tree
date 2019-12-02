@@ -11,31 +11,31 @@ import java.util.ArrayList;
 public class PathNode implements Comparable {
 
     /** An ArrayList of vertex IDs ordered by appearance in the path. */
-    private ArrayList<Integer> path;
+    private ArrayList<Number> path;
     /** Reference to the left child. */
     private PathNode left;
     /** Reference to the right child. */
     private PathNode right;
     /** Reference to the parent. */
     private PathNode parent;
-    /** Reference to the node directly to the right on the same tree level. */
-    private PathNode generation; //left to right sibling or cousin
+    /** Reference to the node directly to the left on the same tree level. */
+    private PathNode generationLeft;
+    /** Reference to the node directly to the right on the same tree level */
+    private PathNode generationRight;
     /** True if the node is last in the level. */
     private boolean isLevelEnd;
     /** True if the node is the right-most node in the last level. */
     private boolean isLastNode;
-    /** Level that PathNode is on*/
-    private int level;
 
     //cant assume any fields so set default values, no parameters
     public PathNode(){
         this.left = null;
         this.right = null;
         this.parent = null;
-        this.generation = null;
+        this.generationLeft = null;
+        this.generationRight = null;
         this.isLevelEnd = false;
         this.isLastNode = false;
-        this.level = 0;
     }
 
     //compares sizes
@@ -52,7 +52,7 @@ public class PathNode implements Comparable {
     public boolean equals(Object other){
         boolean status = true;
         if (other instanceof PathNode){
-            for (Integer num : ((PathNode) other).path){
+            for (Number num : ((PathNode) other).path){
                 if (!this.path.contains(num)){
                     status = false;
                 }
@@ -61,11 +61,11 @@ public class PathNode implements Comparable {
         return status;
     }
 
-    public ArrayList<Integer> getPath() {
+    public ArrayList<Number> getPath() {
         return path;
     }
 
-    public void setPath(ArrayList<Integer> path) {
+    public void setPath(ArrayList<Number> path) {
         this.path = path;
     }
 
@@ -93,14 +93,6 @@ public class PathNode implements Comparable {
         this.parent = parent;
     }
 
-    public PathNode getGeneration() {
-        return generation;
-    }
-
-    public void setGeneration(PathNode generation) {
-        this.generation = generation;
-    }
-
     public boolean isLevelEnd() {
         return isLevelEnd;
     }
@@ -117,11 +109,19 @@ public class PathNode implements Comparable {
         isLastNode = lastNode;
     }
 
-    public int getLevel() {
-        return level;
+    public PathNode getGenerationLeft() {
+        return generationLeft;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setGenerationLeft(PathNode generationLeft) {
+        this.generationLeft = generationLeft;
+    }
+
+    public PathNode getGenerationRight() {
+        return generationRight;
+    }
+
+    public void setGenerationRight(PathNode generationRight) {
+        this.generationRight = generationRight;
     }
 }
