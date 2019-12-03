@@ -13,10 +13,17 @@ import java.util.Scanner;
  */
 public class Heap {
 
+    // TODO: 12/2/2019 Don't know if these are all the fields needed
+
     /** Temporary storage for the paths starting at tempPath[1]. */
     private ArrayList<PathNode> tempPath = new ArrayList<>();
-    /** top of Heap*/
-    private PathNode top;
+    /** Root of Heap*/
+    private PathNode root;
+
+    public Heap(){
+        this.tempPath.add(null);
+        this.root = null;
+    }
 
     /**
      * Reads inputFile given at the command line and places the contents of each line into the
@@ -30,15 +37,30 @@ public class Heap {
         try {
             File file = new File(inputFile);
             Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
+            scanner.useDelimiter("\r\n");
+            while (scanner.hasNext()) {
                 PathNode node = new PathNode();
-                ArrayList<Integer> temp = new ArrayList<>();
-                scanner.useDelimiter(" ");
-                while (scanner.hasNext()){
-                    String num = scanner.next();
-                    System.out.println(num);
-                    //temp.add((int) num);
+                ArrayList<Number> temp = new ArrayList<>();
+                String string = scanner.next();
+                String[] arr = string.split(" ");
+                for (String str : arr) {
+                    Number num;
+                    if (!str.contains(".")) {
+                        num = Integer.valueOf(str);
+                    } else {
+                        num = Double.valueOf(str);
+                    }
+                    temp.add(num);
                 }
+                node.setPath(temp);
+                tempPath.add(node);
+                //System.out.println(tempPath);
+                //code below displays data from file being passed to each node
+                /*System.out.println("\nStart of node");
+                for (Number num : node.getPath()){
+                    System.out.print(num);
+                }
+                System.out.println("\nEnd of node"); */
             }
         }catch (FileNotFoundException fnfe){
             System.out.println("readPaths; File passed not found");
@@ -54,12 +76,32 @@ public class Heap {
      * tempPath[(2 * index) + 1].
      *
      * @param index Index of the current node in tempPath.
-     * @param parent Parent of the current node.
      * @return A reference to the node just placed in the tree.
      */
 
-    public PathNode buildCompleteTree(int index, int parent) {
-        return null;
+    public PathNode buildCompleteTree(int index) {
+        if (tempPath.size() > 1){
+            root = tempPath.get(1);
+        }
+
+        if (index < tempPath.size() && index > 0) {
+            PathNode temp = tempPath.get(index);
+            PathNode left;
+            PathNode right;
+
+            if ((index * 2) < tempPath.size()) {
+                left = tempPath.get(index * 2);
+                left.setParent(temp);
+                left.getParent().setLeft(left);
+            }
+            if (((index * 2) + 1) < tempPath.size()) {
+                right = tempPath.get((index * 2) + 1);
+                right.setParent(temp);
+                right.getParent().setRight(right);
+            }
+            buildCompleteTree((index + 1));
+        }
+        return root;
     }
 
     /**
@@ -97,11 +139,15 @@ public class Heap {
         this.tempPath = tempPath;
     }
 
-    private void addNode(PathNode node){
+    private void swap(PathNode node){
 
     }
 
-    private void swap(PathNode node){
+    public PathNode getRoot() {
+        return root;
+    }
 
+    public void setRoot(PathNode root) {
+        this.root = root;
     }
 }

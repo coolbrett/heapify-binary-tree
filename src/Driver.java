@@ -13,7 +13,9 @@ public class Driver {
         try {
             Heap heap = new Heap();
             heap.readPaths(args[2]);
-        }catch (FileNotFoundException e){
+            //tempPath starts at 1, start point has no parent so 0 is handled accordingly in method
+            heap.printTreeLevels(heap.buildCompleteTree(1));
+        }catch (FileNotFoundException fnfe){
             System.out.println("main; file not found");
         }
     }
