@@ -1,11 +1,12 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-// FIXME: 11/21/2019 description sucks
 /**
- * Class to build Heap object in order to heapify
+ * This class builds Heap objects that store PathNodes from least to greatest with
+ * greatest being at the bottom
  *
  * @author Julia Januchowski
  * @author Brett Dale
@@ -13,16 +14,17 @@ import java.util.Scanner;
  */
 public class Heap {
 
-    // TODO: 12/2/2019 Don't know if these are all the fields needed
-
     /** Temporary storage for the paths starting at tempPath[1]. */
     private ArrayList<PathNode> tempPath = new ArrayList<>();
     /** Root of Heap*/
     private PathNode root;
+    /** Level count*/
+    private int levels;
 
     public Heap(){
         this.tempPath.add(null);
         this.root = null;
+        this.levels = 1;
     }
 
     /**
@@ -82,6 +84,8 @@ public class Heap {
     public PathNode buildCompleteTree(int index) {
         if (tempPath.size() > 1){
             root = tempPath.get(1);
+        }else{
+            throw new InputMismatchException("buildCompleteTree; file did not pass any data");
         }
 
         if (index < tempPath.size() && index > 0) {
@@ -109,7 +113,11 @@ public class Heap {
      * @param root Root of the subtree.
      */
     public void setLevelEnd(PathNode root){
-
+        root.setLevelEnd(true);
+        if (root.getLeft() != null){
+            this.levels++;
+            setLevelEnd(root.getLeft());
+        }
     }
 
     /**
@@ -119,7 +127,35 @@ public class Heap {
      * @param root Root of the subtree.
      */
     public void setGenerationLinks(PathNode root){
+        if (root.getLeft() != null && root.getRight() != null){
+            root.getLeft().setGenerationRight(root.getRight());
+            root.getRight().setGenerationLeft(root.getLeft());
+            if (root.getGenerationLeft() != null && root.getGenerationLeft().getRight() != null){
+                root.getLeft().setGenerationLeft(root.getGenerationLeft().getRight());
+                root.getGenerationLeft().getRight().setGenerationRight(root.getLeft());
+            }
+            if (root.getGenerationRight() != null && root.getGenerationRight().getLeft() != null){
+                root.getRight().setGenerationRight(root.getGenerationRight().getLeft());
+                root.getGenerationRight().getLeft().setGenerationLeft(root.getRight());
+            }
+            setGenerationLinks(root.getLeft());
+            setGenerationLinks(root.getRight());
+        }else {
+            if (root.getGenerationLeft() != null && root.getGenerationLeft().getRight() != null){
+                root.getLeft().setGenerationLeft(root.getGenerationLeft().getRight());
+                root.getGenerationLeft().getRight().setGenerationRight(root.getLeft());
+            }
+        }
+    }
 
+    /**
+     * This method will sort the Heap object in terms of size from smallest to largest with
+     * the smallest PathNodes being at the top and largest PathNodes being at the bottom
+     * @param root root of the heap object
+     */
+    public void heapify(PathNode root){
+        //this is just for testing
+        PathNode temp = this.getLastNode(navigateLeft(root));
     }
 
     /**
@@ -149,5 +185,41 @@ public class Heap {
 
     public void setRoot(PathNode root) {
         this.root = root;
+    }
+
+    public int getLevels() {
+        return levels;
+    }
+
+    public void setLevels(int levels) {
+        this.levels = levels;
+    }
+
+    /*private PathNode getLastNode(PathNode root){
+        if (root.getLeft() != null){
+            getLastNode(root.getLeft());
+        }else{
+            while (root.getGenerationRight() != null){
+                root = root.getGenerationRight();
+            }
+        }
+        root.setLastNode(true);
+        return root;
+    }*/
+
+    private PathNode navigateLeft(PathNode root){
+        while (root.getLeft() != null){
+            root = root.getLeft();
+        }
+        return root;
+    }
+
+    private PathNode getLastNode(PathNode root){
+        PathNode temp = root.getGenerationRight();
+        while (temp.getGenerationRight() != null){
+            temp = temp.getGenerationRight();
+        }
+        temp.setLastNode(true);
+        return temp;
     }
 }

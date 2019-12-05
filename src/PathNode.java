@@ -125,11 +125,11 @@ public class PathNode implements Comparable {
     public void setGenerationRight(PathNode generationRight) {
         this.generationRight = generationRight;
     }
-    
+
     public boolean isLeaf(){
         return this.right == null && this.left == null;
     }
-    
+
     public boolean isMiddle(){
         return ((this.right != null || this.left != null) && this.parent != null);
     }
