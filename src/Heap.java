@@ -170,7 +170,7 @@ public class Heap {
      * by the instructions.
      * @param root Root of the whole tree to begin printing from.
      */
-    public void printTreeLevels(PathNode root){
+    private void printTreeLevels(PathNode root){
         String result = "";
         result += "Root:\t\t" + pathNodeStr(root) + "\n";
         PathNode currentNode = root;
@@ -185,8 +185,12 @@ public class Heap {
         System.out.println(result);
     }
 
-
-    public String pathNodeStr(PathNode currNode){
+    /**
+     * Helper method for printTreeLevels. Returns string version of a node including it's path
+     * @param currNode the pathNode you wish to get the string value of
+     * @return the string value of currNode
+     */
+    private String pathNodeStr(PathNode currNode){
         String result = "";
         result += (currNode.getPath().size()-1) + "(";
         int pSize = 0;
@@ -203,7 +207,13 @@ public class Heap {
         return result;
     }
 
-    public String printCurrentTreeLevel(PathNode currNode, int levelNum){
+    /**
+     * Helper method for printTreeLevels. Returns string version of a tree level
+     * @param currNode a pathNode that represents the leftmost node in the current level of a tree
+     * @param levelNum an integer that represents the current level number you are on. 
+     * @return a formatted string of the current level you are on.
+     */
+    private String printCurrentTreeLevel(PathNode currNode, int levelNum){
         String result = "Level " + levelNum + ":\t";
         PathNode currentNode = currNode;
 
