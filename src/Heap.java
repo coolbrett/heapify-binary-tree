@@ -39,7 +39,7 @@ public class Heap {
         try {
             File file = new File(inputFile);
             Scanner scanner = new Scanner(file);
-            scanner.useDelimiter("\r\n");
+            scanner.useDelimiter("\n");
             while (scanner.hasNext()) {
                 PathNode node = new PathNode();
                 ArrayList<Number> temp = new ArrayList<>();
@@ -162,7 +162,7 @@ public class Heap {
      * @param root root of the heap object
      */
     public void heapify(PathNode root){
-        swap(root, root.getLeft());
+       // swap(root, root.getLeft());
     }
 
     /**
@@ -171,7 +171,53 @@ public class Heap {
      * @param root Root of the whole tree to begin printing from.
      */
     public void printTreeLevels(PathNode root){
+        String result = "";
+        result += "Root:\t\t" + pathNodeStr(root) + "\n";
+        PathNode currentNode = root;
 
+        int levelNum = 1;
+        while(currentNode.getLeft() != null){
+            currentNode = currentNode.getLeft();
+            result += printCurrentTreeLevel(currentNode, levelNum) + "\n";
+            levelNum++;
+
+        }
+        System.out.println(result);
+    }
+
+
+    public String pathNodeStr(PathNode currNode){
+        String result = "";
+        result += (currNode.getPath().size()-1) + "(";
+        int pSize = 0;
+        for(Number i : currNode.getPath()){
+            if(pSize < currNode.getPath().size()-1) {
+                result += i + ", ";
+            }
+            else{
+                result += i;
+            }
+            pSize++;
+        }
+        result += ")";
+        return result;
+    }
+
+    public String printCurrentTreeLevel(PathNode currNode, int levelNum){
+        String result = "Level " + levelNum + ":\t";
+        PathNode currentNode = currNode;
+
+        while(currentNode != null){
+            if(currentNode.getGenerationRight() != null){
+                result+= pathNodeStr(currentNode) + "--> ";
+                currentNode = currentNode.getGenerationRight();
+            }
+            else {
+                result+= pathNodeStr(currentNode);
+                currentNode = currentNode.getGenerationRight();
+            }
+        }
+        return result;
     }
 
     public ArrayList<PathNode> getTempPath() {
@@ -180,6 +226,10 @@ public class Heap {
 
     public void setTempPath(ArrayList<PathNode> tempPath) {
         this.tempPath = tempPath;
+    }
+
+    private void swap(PathNode node){
+
     }
 
     public PathNode getRoot() {
@@ -197,6 +247,18 @@ public class Heap {
     public void setLevels(int levels) {
         this.levels = levels;
     }
+
+    /*private PathNode getLastNode(PathNode root){
+        if (root.getLeft() != null){
+            getLastNode(root.getLeft());
+        }else{
+            while (root.getGenerationRight() != null){
+                root = root.getGenerationRight();
+            }
+        }
+        root.setLastNode(true);
+        return root;
+    }*/
 
     private PathNode navigateLeft(PathNode root){
         while (root.getLeft() != null){
