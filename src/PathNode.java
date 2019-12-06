@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Brett Dale
  * @version 1.0 (11/21/19)
  */
-public class PathNode implements Comparable {
+public class PathNode implements Comparable{
 
     /** An ArrayList of vertex IDs ordered by appearance in the path. */
     private ArrayList<Number> path;
@@ -47,7 +47,6 @@ public class PathNode implements Comparable {
         }
     }
 
-    // FIXME: 12/3/2019 break statement may not be okay
     @Override
     public boolean equals(Object other){
         boolean status = true;
@@ -55,11 +54,21 @@ public class PathNode implements Comparable {
             for (Number num : ((PathNode) other).path){
                 if (!this.path.contains(num)) {
                     status = false;
-                    break;
                 }
             }
         }
         return status;
+    }
+
+    public void copy(PathNode node){
+        this.parent = node.parent;
+        this.path = node.path;
+        this.left = node.left;
+        this.right = node.right;
+        this.generationLeft = node.generationLeft;
+        this.generationRight = node.generationRight;
+        this.isLevelEnd = node.isLevelEnd;
+        this.isLastNode = node.isLastNode;
     }
 
     public ArrayList<Number> getPath() {

@@ -148,14 +148,21 @@ public class Heap {
         }
     }
 
+    private void swap(PathNode parent, PathNode child){
+        //do left and right checks, nodes end up pointing to themselves
+        PathNode temp = new PathNode();
+        temp.copy(parent);
+        parent.copy(child);
+        child.copy(temp);
+    }
+
     /**
      * This method will sort the Heap object in terms of size from smallest to largest with
      * the smallest PathNodes being at the top and largest PathNodes being at the bottom
      * @param root root of the heap object
      */
     public void heapify(PathNode root){
-        //this is just for testing
-        PathNode temp = this.getLastNode(navigateLeft(root));
+        swap(root, root.getLeft());
     }
 
     /**
@@ -175,10 +182,6 @@ public class Heap {
         this.tempPath = tempPath;
     }
 
-    private void swap(PathNode node){
-
-    }
-
     public PathNode getRoot() {
         return root;
     }
@@ -194,18 +197,6 @@ public class Heap {
     public void setLevels(int levels) {
         this.levels = levels;
     }
-
-    /*private PathNode getLastNode(PathNode root){
-        if (root.getLeft() != null){
-            getLastNode(root.getLeft());
-        }else{
-            while (root.getGenerationRight() != null){
-                root = root.getGenerationRight();
-            }
-        }
-        root.setLastNode(true);
-        return root;
-    }*/
 
     private PathNode navigateLeft(PathNode root){
         while (root.getLeft() != null){
