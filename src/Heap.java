@@ -149,11 +149,9 @@ public class Heap {
     }
 
     private void swap(PathNode parent, PathNode child){
-        //do left and right checks, nodes end up pointing to themselves
-        PathNode temp = new PathNode();
-        temp.copy(parent);
-        parent.copy(child);
-        child.copy(temp);
+        ArrayList<Number> temp = parent.getPath();
+        parent.setPath(child.getPath());
+        child.setPath(temp);
     }
 
     /**
@@ -162,7 +160,71 @@ public class Heap {
      * @param root root of the heap object
      */
     public void heapify(PathNode root){
-       // swap(root, root.getLeft());
+        PathNode leftMost = root;
+        while(leftMost.getLeft() != null){
+            leftMost = leftMost.getLeft();
+        }
+        PathNode clPointer = leftMost;
+        while(clPointer.getParent() != null){
+            traverseLevel(clPointer.getParent());
+        }
+    }
+
+    /**
+     * This method will sort the Heap object in terms of size from smallest to largest with
+     * the smallest PathNodes being at the top and largest PathNodes being at the bottom
+     * @param root root of the heap object
+     */
+    public void traverseLevel(PathNode parent){
+        PathNode imbalance = findImbalances(parent);
+        if(imbalance != null){
+            swap(parent, imbalance);
+            //Check subtree!!!
+        }
+        while(parent.getGenerationRight() != null){
+            imbalance = findImbalances(parent.getGenerationRight());
+            if(imbalance != null){
+                swap(parent, imbalance);
+            }
+        }
+    }
+
+    /**
+     * This method will find imbalances in the Heap object
+     * @param root root of the heap object
+     */
+    public PathNode findImbalances(PathNode parent){
+        PathNode imbalance = null;
+
+        //while(imbalance == null && !root.isLeaf()) {
+            if (parent.getLeft() != null && parent.getRight() != null) {
+                int compCC = parent.getLeft().compareTo(parent.getRight());
+                if (compCC < 0) {
+                    int compCP = parent.getLeft().compareTo(parent);
+                    if (compCP < 0) {
+                        imbalance = parent.getLeft();
+                    } // end if
+                } // end if
+                else if (compCC > 0) {
+                    int compCP = parent.getRight().compareTo(parent);
+                    if (compCP < 0) {
+                        imbalance = parent.getRight();
+                    } // end if
+                } // end else if
+            } // end if
+            else if (parent.getLeft() != null && parent.getRight() == null) {
+                int compCP = parent.compareTo(parent.getLeft());
+                if (compCP > 0) {
+                    imbalance = parent.getLeft();
+                }
+            } else if (parent.getLeft() == null && parent.getRight() != null) {
+                int compCP = parent.compareTo(parent.getRight());
+                if (compCP > 0) {
+                    imbalance = parent.getRight();
+                }
+            }
+        //}
+        return imbalance;
     }
 
     /**
@@ -210,7 +272,7 @@ public class Heap {
     /**
      * Helper method for printTreeLevels. Returns string version of a tree level
      * @param currNode a pathNode that represents the leftmost node in the current level of a tree
-     * @param levelNum an integer that represents the current level number you are on. 
+     * @param levelNum an integer that represents the current level number you are on.
      * @return a formatted string of the current level you are on.
      */
     private String printCurrentTreeLevel(PathNode currNode, int levelNum){
@@ -236,10 +298,6 @@ public class Heap {
 
     public void setTempPath(ArrayList<PathNode> tempPath) {
         this.tempPath = tempPath;
-    }
-
-    private void swap(PathNode node){
-
     }
 
     public PathNode getRoot() {
@@ -284,5 +342,22 @@ public class Heap {
         }
         temp.setLastNode(true);
         return temp;
+    }
+    public void go(String fileName) {
+        try {
+            this.readPaths("input.txt");
+            //tempPath starts at 1, start point has no parent so 0 is handled accordingly in method
+            this.buildCompleteTree(1);
+            this.setLevelEnd(this.getRoot());
+            this.setGenerationLinks(this.getRoot());
+            System.out.println("---------- Before Heapify ----------");
+            this.printTreeLevels(this.getRoot());
+            this.heapify(this.getRoot());
+            System.out.println("\n---------- After Heapify ----------");
+            this.printTreeLevels(this.getRoot());
+
+        }catch (FileNotFoundException fnfe){
+            System.out.println("main; file not found");
+        }
     }
 }
