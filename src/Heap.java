@@ -166,7 +166,9 @@ public class Heap {
         }
         PathNode clPointer = leftMost;
         while(clPointer.getParent() != null){
+            //brett edited
             traverseLevel(clPointer.getParent());
+            clPointer = clPointer.getParent();
         }
     }
 
@@ -182,9 +184,12 @@ public class Heap {
             //Check subtree!!!
         }
         while(parent.getGenerationRight() != null){
-            imbalance = findImbalances(parent.getGenerationRight());
+            imbalance = findImbalances(parent);
+            parent = parent.getGenerationRight();
+
             if(imbalance != null){
                 swap(parent, imbalance);
+                
             }
         }
     }
@@ -199,13 +204,13 @@ public class Heap {
         //while(imbalance == null && !root.isLeaf()) {
             if (parent.getLeft() != null && parent.getRight() != null) {
                 int compCC = parent.getLeft().compareTo(parent.getRight());
-                if (compCC < 0) {
+                if (compCC <= 0) {
                     int compCP = parent.getLeft().compareTo(parent);
                     if (compCP < 0) {
                         imbalance = parent.getLeft();
                     } // end if
                 } // end if
-                else if (compCC > 0) {
+                else{
                     int compCP = parent.getRight().compareTo(parent);
                     if (compCP < 0) {
                         imbalance = parent.getRight();
