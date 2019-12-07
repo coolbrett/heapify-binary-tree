@@ -181,7 +181,7 @@ public class Heap {
         PathNode imbalance = findImbalances(parent);
         if(imbalance != null){
             swap(parent, imbalance);
-            //Check subtree!!!
+            checkSwap(imbalance);
         }
         while(parent.getGenerationRight() != null){
             imbalance = findImbalances(parent);
@@ -189,10 +189,20 @@ public class Heap {
 
             if(imbalance != null){
                 swap(parent, imbalance);
-                
+                checkSwap(imbalance);
+
             }
         }
     }
+
+    public void checkSwap(PathNode parent){
+        PathNode imbalance = findImbalances(parent);
+        if(imbalance != null){
+            swap(parent,imbalance);
+            checkSwap(imbalance);
+        }
+    }
+
 
     /**
      * This method will find imbalances in the Heap object
