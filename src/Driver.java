@@ -8,18 +8,19 @@ import java.io.FileNotFoundException;
  * @version 1.0 (11/21/19)
  */
 public class Driver {
-
+    /**
+     * creates a heap and calls go to create the heap with that text file
+     * @param args input file
+     */
     public static void main(String[] args) {
         try {
             Heap heap = new Heap();
-            heap.readPaths(args[2]);
-            //tempPath starts at 1, start point has no parent so 0 is handled accordingly in method
-            heap.buildCompleteTree(1);
-            heap.setLevelEnd(heap.getRoot());
-            heap.setGenerationLinks(heap.getRoot());
-            heap.heapify(heap.getRoot());
-        }catch (FileNotFoundException fnfe){
-            System.out.println("main; file not found");
+            heap.go(args[2]);
+        }catch (IllegalArgumentException eae){
+            System.out.println("main: no file was passed");
+        } catch (ArrayIndexOutOfBoundsException eae){
+            System.out.println("main: no file was passed");
         }
+
     }
 }
