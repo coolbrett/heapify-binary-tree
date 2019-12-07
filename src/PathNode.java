@@ -26,7 +26,6 @@ public class PathNode implements Comparable{
     /** True if the node is the right-most node in the last level. */
     private boolean isLastNode;
 
-    //cant assume any fields so set default values, no parameters
     public PathNode(){
         this.left = null;
         this.right = null;
@@ -58,17 +57,6 @@ public class PathNode implements Comparable{
             }
         }
         return status;
-    }
-
-    public void copy(PathNode node){
-        this.parent = node.parent;
-        this.path = node.path;
-        this.left = node.left;
-        this.right = node.right;
-        this.generationLeft = node.generationLeft;
-        this.generationRight = node.generationRight;
-        this.isLevelEnd = node.isLevelEnd;
-        this.isLastNode = node.isLastNode;
     }
 
     public ArrayList<Number> getPath() {
@@ -103,20 +91,8 @@ public class PathNode implements Comparable{
         this.parent = parent;
     }
 
-    public boolean isLevelEnd() {
-        return isLevelEnd;
-    }
-
     public void setLevelEnd(boolean levelEnd) {
         isLevelEnd = levelEnd;
-    }
-
-    public boolean isLastNode() {
-        return isLastNode;
-    }
-
-    public void setLastNode(boolean lastNode) {
-        isLastNode = lastNode;
     }
 
     public PathNode getGenerationLeft() {
@@ -133,13 +109,5 @@ public class PathNode implements Comparable{
 
     public void setGenerationRight(PathNode generationRight) {
         this.generationRight = generationRight;
-    }
-
-    public boolean isLeaf(){
-        return this.right == null && this.left == null;
-    }
-
-    public boolean isMiddle(){
-        return ((this.right != null || this.left != null) && this.parent != null);
     }
 }
