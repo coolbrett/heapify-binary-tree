@@ -184,8 +184,9 @@ public class Heap {
             checkSwap(imbalance);
         }
         while(parent.getGenerationRight() != null){
-            imbalance = findImbalances(parent);
             parent = parent.getGenerationRight();
+            imbalance = findImbalances(parent);
+
 
             if(imbalance != null){
                 swap(parent, imbalance);
