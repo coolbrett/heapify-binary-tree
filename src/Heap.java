@@ -196,6 +196,10 @@ public class Heap {
         }
     }
 
+     /**
+     * check the current swap just made to see if its new children need to heapified again
+     * @param parent the new parent made from the swap
+     */
     public void checkSwap(PathNode parent){
         PathNode imbalance = findImbalances(parent);
         if(imbalance != null){
